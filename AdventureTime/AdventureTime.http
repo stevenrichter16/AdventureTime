@@ -1,0 +1,6 @@
+@AdventureTime_HostAddress = http://localhost:5256
+
+GET {{AdventureTime_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

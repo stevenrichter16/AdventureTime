@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database for Adventure Time data
+  postgres:
+    image: postgres:15-alpine
+    container_name: adventuretime-postgres
+    environment:
+      # These environment variables configure PostgreSQL
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: adventuretime
+    ports:
+      # Map PostgreSQL port to your Mac
+      - "5432:5432"
+    volumes:
+      # Persist data even when container stops
+      # This creates a named volume that Docker manages
+      - adventuretime-data:/var/lib/postgresql/data
+    healthcheck:
+      # This ensures PostgreSQL is ready before other services try to connect
+      test: ["CMD-SHELL", "pg_isready -U adventurer -d adventuretime"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # You can add your .NET application here later
+  # api:
+  #   build: .
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   environment:
+  #     - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=adventuretime;Username=adventurer;Password=mathematical
+  #   ports:
+  #     - "5256:80"
+
+volumes:
+  # This named volume persists your database data
+  adventuretime-data:
