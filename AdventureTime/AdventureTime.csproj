@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MediatR" Version="13.0.0" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
@@ -20,6 +22,11 @@
     <ItemGroup>
       <Folder Include="docker-compose\" />
       <Folder Include="Migrations\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AdventureTime.Application\AdventureTime.Application.csproj" />
+      <ProjectReference Include="..\AdventureTime.Infrastructure\AdventureTime.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

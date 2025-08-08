@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureTime", "AdventureTime\AdventureTime.csproj", "{8516EF35-A778-4A51-A6EB-7F17760EFBF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureTime.Application", "AdventureTime.Application\AdventureTime.Application.csproj", "{9E6E1551-D032-4E28-8DBC-DCF3C742F166}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureTime.Infrastructure", "AdventureTime.Infrastructure\AdventureTime.Infrastructure.csproj", "{B0CD40B1-3685-4B4C-A2F8-DF75D1495430}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{8516EF35-A778-4A51-A6EB-7F17760EFBF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8516EF35-A778-4A51-A6EB-7F17760EFBF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8516EF35-A778-4A51-A6EB-7F17760EFBF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E6E1551-D032-4E28-8DBC-DCF3C742F166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E6E1551-D032-4E28-8DBC-DCF3C742F166}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E6E1551-D032-4E28-8DBC-DCF3C742F166}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E6E1551-D032-4E28-8DBC-DCF3C742F166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0CD40B1-3685-4B4C-A2F8-DF75D1495430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0CD40B1-3685-4B4C-A2F8-DF75D1495430}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0CD40B1-3685-4B4C-A2F8-DF75D1495430}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CD40B1-3685-4B4C-A2F8-DF75D1495430}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

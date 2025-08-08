@@ -1,16 +1,21 @@
-using AdventureTime.Data;
-using Microsoft.EntityFrameworkCore;
+using AdventureTime.Infrastructure;
+using AdventureTime.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Add Infrastructure services
+// This single line configures all database and external service dependencies
+// The beauty is that your web project doesn't need to know about Entity Framework or PostgreSQL
+builder.Services.AddInfrastructure(builder.Configuration);
 
-// Register Swagger generator
-// This tells your application to build API documentation
+// Add Application services
+// We'll create this extension method next to keep things organized
+builder.Services.AddApplication();
+
+// Register Swagger for API documentation
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -18,33 +23,37 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "Adventure Time API",
         Version = "v1",
-        Description = "An API for managing Adventure Time episodes and analysis"
+        Description = "An API for managing Adventure Time episodes using Clean Architecture with CQRS pattern"
     });
 });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-// The order here matters - middleware executes in the order it's added
 if (app.Environment.IsDevelopment())
 {
-    // Enable middleware to serve generated Swagger as a JSON endpoint
     app.UseSwagger();
-    
-    // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
     app.UseSwaggerUI(options =>
     {
-        // This defines where the Swagger JSON file can be found
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Adventure Time API V1");
-        
-        // If you want Swagger UI at the app's root, uncomment the next line
-        // options.RoutePrefix = string.Empty;
     });
 }
 
+// Standard middleware pipeline
+app.UseHttpsRedirection();
 app.UseAuthorization();
-
-// This must come after UseAuthorization but before Run
 app.MapControllers();
+
+// Optional: Ensure database is created and migrations are applied
+// This is helpful during development
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<AdventureTime.Infrastructure.Data.AppDbContext>();
+        context.Database.EnsureCreated();
+        // Or use migrations: await context.Database.MigrateAsync();
+    }
+}
 
 app.Run();
