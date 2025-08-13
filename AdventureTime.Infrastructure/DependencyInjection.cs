@@ -46,16 +46,30 @@ public static class DependencyInjection
         });
         
         // Register our services
-        // This line says: "Whenever someone asks for IEpisodeService, give them an EpisodeService"
-        // Using AddScoped means each HTTP request gets its own instance
-        services.AddScoped<IEpisodeService, EpisodeService>();
-        services.AddHttpClient<IDeepAnalysisService, ClaudeDeepAnalysisService>(client =>
+        if (configuration.GetValue<bool>("Claude"))
         {
-            client.Timeout = TimeSpan.FromMinutes(5); // Claude can take time for deep analysis
-            client.DefaultRequestHeaders.Add("anthropic-version", "2023-06-01");
-        });
+            services.AddHttpClient<IDeepAnalysisService, ClaudeDeepAnalysisService>(client =>
+            {
+                client.Timeout = TimeSpan.FromMinutes(5); // Claude can take time for deep analysis
+                client.DefaultRequestHeaders.Add("anthropic-version", "2023-06-01");
+            });
+        }
+        else
+        {
+            services.AddHttpClient<IDeepAnalysisService, Gpt5DeepAnalysisService>(client =>
+            {
+                client.Timeout = TimeSpan.FromMinutes(5);
+            });
+        }
+        
+        services.AddScoped<IEpisodeRepository, EpisodeRepository>();
         services.AddScoped<IEpisodeAnalysisRepository, EpisodeAnalysisRepository>();
         services.Configure<AnthropicConfig>(configuration.GetSection("Anthropic"));
+
+        // Add configuration for OpenAI
+        services.Configure<OpenAiConfig>(
+            configuration.GetSection("OpenAi"));
+
 
         
         // If we had other infrastructure services, we'd register them here too

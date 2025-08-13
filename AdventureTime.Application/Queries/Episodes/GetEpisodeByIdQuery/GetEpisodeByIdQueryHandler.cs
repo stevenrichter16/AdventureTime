@@ -1,5 +1,5 @@
 using AdventureTime.Application.Interfaces;
-using AdventureTime.Models;
+using AdventureTime.Application.Models;
 using MediatR;
 
 namespace AdventureTime.Application.Queries.Episodes.GetEpisodeByIdQuery;
@@ -10,12 +10,13 @@ namespace AdventureTime.Application.Queries.Episodes.GetEpisodeByIdQuery;
 /// </summary>
 public class GetEpisodeByIdQueryHandler : IRequestHandler<GetEpisodeByIdQuery, Episode?>
 {
-    private readonly IEpisodeService _episodeService;
+    private readonly IEpisodeRepository _episodeRepository;
+    private readonly IEpisodeAnalysisRepository _episodeAnalysisRepository;
     private readonly IDeepAnalysisService _deepAnalysisService;
     
-    public GetEpisodeByIdQueryHandler(IEpisodeService episodeService, IDeepAnalysisService deepAnalysisService)
+    public GetEpisodeByIdQueryHandler(IEpisodeRepository episodeRepository, IDeepAnalysisService deepAnalysisService)
     {
-        _episodeService = episodeService;
+        _episodeRepository = episodeRepository;
         _deepAnalysisService = deepAnalysisService;
     }
     
@@ -23,8 +24,8 @@ public class GetEpisodeByIdQueryHandler : IRequestHandler<GetEpisodeByIdQuery, E
     {
         // Queries are typically simpler than commands
         // They just fetch and return data, no complex business logic
-        var episode = await _episodeService.GetByIdAsync(request.Id, cancellationToken);
-        var analysis = await _deepAnalysisService.AnalyzeEpisodeAsync(episode, cancellationToken);
+        var episode = await _episodeRepository.GetByIdAsync(request.Id, cancellationToken);
+        //var analysis = await _deepAnalysisService.AnalyzeEpisodeAsync(episode, cancellationToken);
         return episode;
     }
 }

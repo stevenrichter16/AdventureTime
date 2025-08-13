@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AdventureTime.Models;
+namespace AdventureTime.Application.Models;
 
 /// <summary>
 /// Represents a single Adventure Time episode with metadata derived from fan analysis patterns

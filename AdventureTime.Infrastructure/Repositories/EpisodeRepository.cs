@@ -1,22 +1,22 @@
 using AdventureTime.Application.Interfaces;
+using AdventureTime.Application.Models;
 using AdventureTime.Infrastructure.Data;
-using AdventureTime.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace AdventureTime.Infrastructure.Services;
+namespace AdventureTime.Infrastructure.Repositories;
 
 /// <summary>
 /// The concrete implementation of our episode service.
 /// This is where the rubber meets the road - actual database operations happen here.
 /// Notice how this class is focused solely on data operations, not HTTP concerns or command processing.
 /// </summary>
-public class EpisodeService : IEpisodeService
+public class EpisodeRepository : IEpisodeRepository
 {
     private readonly AppDbContext _context;
-    private readonly ILogger<EpisodeService> _logger;
+    private readonly ILogger<EpisodeRepository> _logger;
     
-    public EpisodeService(AppDbContext context, ILogger<EpisodeService> logger)
+    public EpisodeRepository(AppDbContext context, ILogger<EpisodeRepository> logger)
     {
         _context = context;
         _logger = logger;

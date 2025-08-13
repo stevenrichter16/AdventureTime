@@ -1,3 +1,5 @@
+using AdventureTime.Application.Models.EpisodeAnalysis;
+
 namespace AdventureTime.Application.Interfaces;
 
 public interface IEpisodeAnalysisRepository

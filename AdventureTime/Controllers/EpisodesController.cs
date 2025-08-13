@@ -2,10 +2,14 @@ using System.Diagnostics;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AdventureTime.Application.Commands.Episodes.CreateEpisode;
+using AdventureTime.Application.Commands.Episodes.CreateEpisodeAnalysis;
 using AdventureTime.Application.Enums;
 using AdventureTime.Application.Interfaces;
+using AdventureTime.Application.Models;
+using AdventureTime.Application.Models.EpisodeAnalysis;
 using AdventureTime.Application.Queries.Episodes.GetEpisodeByIdQuery;
-using AdventureTime.Models;
+using AdventureTime.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdventureTime.Controllers;
 
@@ -16,16 +20,37 @@ public class EpisodesController : ControllerBase
     private readonly IMediator _mediator;
     private readonly ILogger<EpisodesController> _logger;
     private readonly IDeepAnalysisService _deepAnalysisService;
-    private readonly IEpisodeAnalysisRepository _episodeAnalysisService;
+    private readonly IEpisodeAnalysisRepository _episodeAnalysisRepository;
+    private readonly AppDbContext _context;
     
     // Notice how much simpler our constructor is now!
     // We only depend on MediatR, not on the database context or services
-    public EpisodesController(IMediator mediator, ILogger<EpisodesController> logger, IDeepAnalysisService deepAnalysisService, IEpisodeAnalysisRepository episodeAnalysisRepository)
+    public EpisodesController(IMediator mediator, ILogger<EpisodesController> logger, IDeepAnalysisService deepAnalysisService, IEpisodeAnalysisRepository episodeAnalysisRepository, AppDbContext context)
     {
         _mediator = mediator;
         _logger = logger;
         _deepAnalysisService = deepAnalysisService;
-        _episodeAnalysisService = episodeAnalysisRepository;
+        _episodeAnalysisRepository = episodeAnalysisRepository;
+        _context = context;
+    }
+    // GET: api/episodes
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Episode>>> GetAll()
+    {
+        try
+        {
+            var episodes = await _context.Episodes
+                .OrderBy(e => e.Season)
+                .ThenBy(e => e.EpisodeNumber)
+                .ToListAsync();
+            
+            return Ok(episodes);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving episodes");
+            return StatusCode(500, new { message = "An error occurred while retrieving episodes" });
+        }
     }
     
     /// <summary>
@@ -102,6 +127,19 @@ public class EpisodesController : ControllerBase
     [Route("api/[controller]/analysis")]
     public async Task<ActionResult<EpisodeAnalysis>> CreateEpisodeAnalysis(int id)
     {
+        var command = new CreateEpisodeAnalysisCommand { Id = id };
+        var episodeAnalysis = await _mediator.Send(command);
+        
+        //var analysis = await _deepAnalysisService.AnalyzeEpisodeAsync(episode);
+        //Debug.WriteLine("Analysis for episode with ID {id}: {analysis}", id, analysis);
+        //await _episodeAnalysisRepository.SaveAsync(analysis);
+        return Ok(episodeAnalysis);
+    }
+    
+    [HttpPost]
+    [Route("api/[controller]/analysis/quick")]
+    public async Task<ActionResult<EpisodeAnalysis>> QuickEpisodeAnalysis(int id)
+    {
         var query = new GetEpisodeByIdQuery { Id = id };
         var episode = await _mediator.Send(query);
         
@@ -112,10 +150,17 @@ public class EpisodesController : ControllerBase
         
         var analysis = await _deepAnalysisService.AnalyzeEpisodeAsync(episode);
         //Debug.WriteLine("Analysis for episode with ID {id}: {analysis}", id, analysis);
-        await _episodeAnalysisService.SaveAsync(analysis);
+        //await _episodeAnalysisRepository.SaveAsync(analysis);
         return Ok(analysis);
     }
-    
+
+    [HttpGet]
+    [Route("api/[controller]/analysis/{id:int}")]
+    public async Task<ActionResult<EpisodeAnalysis>> GetEpisodeAnalysis(int id)
+    {
+        var analysis = await _episodeAnalysisRepository.GetByEpisodeIdAsync(id);
+        return Ok(analysis);
+    }
     // Additional endpoints would follow the same pattern:
     // - UpdateEpisode would use UpdateEpisodeCommand
     // - DeleteEpisode would use DeleteEpisodeCommand

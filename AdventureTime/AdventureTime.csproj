@@ -29,4 +29,8 @@
       <ProjectReference Include="..\AdventureTime.Infrastructure\AdventureTime.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="docker-compose.yml" />
+    </ItemGroup>
+
 </Project>

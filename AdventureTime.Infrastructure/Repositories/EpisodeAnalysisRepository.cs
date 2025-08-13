@@ -1,8 +1,12 @@
 // In Infrastructure/Repositories/EpisodeAnalysisRepository.cs
+
+using AdventureTime.Application.Entities;
+using AdventureTime.Application.Entities.EpisodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using AdventureTime.Application.Interfaces;
 using AdventureTime.Application.Models;
+using AdventureTime.Application.Models.EpisodeAnalysis;
 using AdventureTime.Infrastructure.Data;
 
 namespace AdventureTime.Infrastructure.Repositories;

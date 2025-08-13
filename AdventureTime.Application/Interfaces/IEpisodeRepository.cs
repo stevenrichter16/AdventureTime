@@ -1,4 +1,4 @@
-using AdventureTime.Models;
+using AdventureTime.Application.Models;
 
 namespace AdventureTime.Application.Interfaces;
 
@@ -7,7 +7,7 @@ namespace AdventureTime.Application.Interfaces;
 /// It's like a job description - it tells us what an EpisodeService must be able to do,
 /// but not HOW it does it. This allows us to swap implementations later if needed.
 /// </summary>
-public interface IEpisodeService
+public interface IEpisodeRepository
 {
     /// <summary>
     /// Creates a new episode in the database

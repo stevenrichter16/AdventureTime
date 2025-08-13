@@ -1,18 +1,13 @@
 using AdventureTime.Application.Enums;
-using AdventureTime.Application.Models;
+using AdventureTime.Application.Models.EpisodeAnalysis;
 
-namespace AdventureTime.Application.Commands.Episodes.CreateEpisode;
+namespace AdventureTime.Application.Commands.Episodes.CreateEpisodeAnalysis;
 
-/// <summary>
-/// Represents the result of attempting to create an episode.
-/// This is an example of the "Result" pattern - a way to handle success and failure
-/// without throwing exceptions, making the possible outcomes explicit and type-safe.
-/// </summary>
-public class CreateEpisodeResult
+public class CreateEpisodeAnalysisResult
 {
     // Making the constructor private ensures results can only be created through our factory methods
     // This guarantees that every result is in a valid state
-    private CreateEpisodeResult() { }
+    private CreateEpisodeAnalysisResult() { }
     
     /// <summary>
     /// Indicates whether the operation succeeded
@@ -27,16 +22,8 @@ public class CreateEpisodeResult
     /// <summary>
     /// The created episode (only populated on success)
     /// </summary>
-    public Episode? Episode { get; private set; }
+    public EpisodeAnalysis? EpisodeAnalysis { get; private set; }
     
-    /// <summary>
-    /// The ID of an existing episode (only populated for conflicts)
-    /// </summary>
-    public int? ConflictingEpisodeId { get; private set; }
-    
-    /// <summary>
-    /// Human-readable error message
-    /// </summary>
     public string? ErrorMessage { get; private set; }
     
     /// <summary>
@@ -44,24 +31,20 @@ public class CreateEpisodeResult
     /// </summary>
     public Dictionary<string, string[]>? ValidationErrors { get; private set; }
     
-    // Factory methods make it impossible to create an inconsistent result
-    // Each method clearly shows what information is available in each scenario
-    
-    public static CreateEpisodeResult Success(Episode episode) => new()
+    public static CreateEpisodeAnalysisResult Success(EpisodeAnalysis episodeAnalysis) => new()
     {
         IsSuccess = true,
-        Episode = episode ?? throw new ArgumentNullException(nameof(episode))
+        EpisodeAnalysis = episodeAnalysis ?? throw new ArgumentNullException(nameof(episodeAnalysis))
     };
     
-    public static CreateEpisodeResult Conflict(int existingEpisodeId, string message) => new()
+    public static CreateEpisodeAnalysisResult Conflict(string message) => new()
     {
         IsSuccess = false,
         FailureType = Enums.FailureType.Conflict,
-        ConflictingEpisodeId = existingEpisodeId,
         ErrorMessage = message
     };
     
-    public static CreateEpisodeResult ValidationFailed(Dictionary<string, string[]> errors) => new()
+    public static CreateEpisodeAnalysisResult ValidationFailed(Dictionary<string, string[]> errors) => new()
     {
         IsSuccess = false,
         FailureType = Enums.FailureType.ValidationFailed,
@@ -69,7 +52,7 @@ public class CreateEpisodeResult
         ErrorMessage = "One or more validation errors occurred."
     };
     
-    public static CreateEpisodeResult InternalError(string message, Exception? exception = null) => new()
+    public static CreateEpisodeAnalysisResult InternalError(string message, Exception? exception = null) => new()
     {
         IsSuccess = false,
         FailureType = Enums.FailureType.InternalError,
@@ -80,4 +63,3 @@ public class CreateEpisodeResult
             : null
     };
 }
-

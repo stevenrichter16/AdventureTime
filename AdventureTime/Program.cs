@@ -6,6 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173", "http://localhost:3000") // Vite uses 5173
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 // Add Infrastructure services
 // This single line configures all database and external service dependencies
 // The beauty is that your web project doesn't need to know about Entity Framework or PostgreSQL
@@ -38,6 +49,8 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Adventure Time API V1");
     });
 }
+
+app.UseCors("AllowReactApp");
 
 // Standard middleware pipeline
 app.UseHttpsRedirection();

@@ -1,4 +1,4 @@
-using AdventureTime.Models;
+using AdventureTime.Application.Models;
 using MediatR;
 
 namespace AdventureTime.Application.Queries.Episodes.GetEpisodeByIdQuery;

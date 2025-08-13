@@ -1,9 +1,12 @@
 using System.Text.Json;
+using AdventureTime.Application.Entities;
+using AdventureTime.Application.Entities.EpisodeAnalysis;
 using AdventureTime.Application.Models;
 using Microsoft.EntityFrameworkCore;
-using AdventureTime.Models;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+// TODO: Character table
+// TODO: Location table
 namespace AdventureTime.Infrastructure.Data
 {
     // The DbContext is like a bridge between your C# code and the database

@@ -1,7 +1,7 @@
 using AdventureTime.Application.Interfaces;
+using AdventureTime.Application.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using AdventureTime.Models;
 
 namespace AdventureTime.Application.Commands.Episodes.CreateEpisode;
 
@@ -11,16 +11,16 @@ namespace AdventureTime.Application.Commands.Episodes.CreateEpisode;
 /// </summary>
 public class CreateEpisodeCommandHandler : IRequestHandler<CreateEpisodeCommand, CreateEpisodeResult>
 {
-    private readonly IEpisodeService _episodeService;
+    private readonly IEpisodeRepository _episodeRepository;
     private readonly ILogger<CreateEpisodeCommandHandler> _logger;
     
     // Dependencies are injected through the constructor
     // This follows the Dependency Inversion Principle - we depend on abstractions (interfaces) not concrete types
     public CreateEpisodeCommandHandler(
-        IEpisodeService episodeService, 
+        IEpisodeRepository episodeRepository, 
         ILogger<CreateEpisodeCommandHandler> logger)
     {
-        _episodeService = episodeService;
+        _episodeRepository = episodeRepository;
         _logger = logger;
     }
     
@@ -36,7 +36,7 @@ public class CreateEpisodeCommandHandler : IRequestHandler<CreateEpisodeCommand,
         {
             // First, let's check if this episode already exists
             // This is business logic that belongs in the handler, not the controller
-            var existingEpisode = await _episodeService.GetBySeasonAndNumberAsync(
+            var existingEpisode = await _episodeRepository.GetBySeasonAndNumberAsync(
                 request.Season, 
                 request.EpisodeNumber, 
                 cancellationToken);
@@ -73,7 +73,7 @@ public class CreateEpisodeCommandHandler : IRequestHandler<CreateEpisodeCommand,
             };
             
             // Delegate the actual saving to the service
-            var savedEpisode = await _episodeService.CreateAsync(episode, cancellationToken);
+            var savedEpisode = await _episodeRepository.CreateAsync(episode, cancellationToken);
             
             _logger.LogInformation("Successfully created episode with ID {Id}", savedEpisode.Id);
             
