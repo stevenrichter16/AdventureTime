@@ -38,8 +38,11 @@ RUN dotnet publish -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 
-# Install curl for health checks (optional but useful)
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+# Install curl for health checks and the debugger
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /vsdbg && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy the published application from the build stage
 COPY --from=build /app/publish .
