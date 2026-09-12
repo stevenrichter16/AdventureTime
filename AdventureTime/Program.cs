@@ -28,15 +28,7 @@ builder.Services.AddApplication();
 
 // Register Swagger for API documentation
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Adventure Time API",
-        Version = "v1",
-        Description = "An API for managing Adventure Time episodes using Clean Architecture with CQRS pattern"
-    });
-});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
