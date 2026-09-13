@@ -3,7 +3,7 @@
 # This keeps the final image small and secure.
 
 # Stage 1: Build Stage - This is our "workshop" where we compile the code
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Copy the solution file and project files first
@@ -35,7 +35,7 @@ RUN dotnet publish -c Release -o /app/publish
 
 # Stage 2: Runtime Stage - This is our "shipping container"
 # We use a smaller runtime image since we don't need the SDK anymore
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
 # Install curl for health checks and the debugger

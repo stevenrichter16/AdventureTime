@@ -11,7 +11,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173", "http://localhost:3000") // Vite uses 5173
+            // Allow the viewer from any local origin (localhost or 127.0.0.1, any port).
+            // Vite picks a new port if 5173 is busy, and Safari reports a blocked
+            // cross-origin fetch as a bare "Load failed", so be permissive for local dev.
+            policy.SetIsOriginAllowed(origin =>
+                    Uri.TryCreate(origin, UriKind.Absolute, out var uri) && uri.IsLoopback)
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -25,6 +29,9 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // Add Application services
 // We'll create this extension method next to keep things organized
 builder.Services.AddApplication();
+
+// Liveness endpoint used by the Docker HEALTHCHECK
+builder.Services.AddHealthChecks();
 
 // Register Swagger for API documentation
 builder.Services.AddEndpointsApiExplorer();
@@ -48,6 +55,7 @@ app.UseCors("AllowReactApp");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHealthChecks("/health");
 
 // Optional: Ensure database is created and migrations are applied
 // This is helpful during development
