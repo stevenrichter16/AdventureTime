@@ -24,6 +24,19 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddOptions<StationOptions>().Bind(configuration.GetSection(StationOptions.SectionName))
+            .Validate(options => options.Capacity >= 1,
+                "Station:Capacity must be greater than or equal to 1")
+            .Validate(options => options.TtlMin <= options.TtlDefault,
+                "Station:TtlMin must be less than or equal to Station:TtlDefault")
+            .Validate(options => options.TtlDefault <= options.TtlMax,
+                "Station:TtlDefault must be less than or equal to Station:TtlMax")
+            .Validate(options => options.SweepInterval > TimeSpan.Zero,
+                "Station:SweepInterval must be greater than 0 seconds")
+            .Validate(options => options.ProcessingTimeout >= TimeSpan.FromSeconds(1),
+                "Station:ProcessingTimeout must be greater than or equal to 1 second")
+            .ValidateOnStart();
+
         // Configure Entity Framework with PostgreSQL
         // This is where we tell EF Core exactly how to connect to our database
         services.AddDbContext<AppDbContext>(options =>
