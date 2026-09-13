@@ -40,6 +40,7 @@ services:
     environment:
       # Override the connection string to use the container network
       # 'postgres' here refers to the service name above, which Docker DNS resolves
+      - Station__AnalysisProvider=${STATION_ANALYSIS_PROVIDER:-Stub}
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=adventuretime;Username=admin;Password=admin
       - ASPNETCORE_ENVIRONMENT=Development
       - Anthropic__ApiKey=${ANTHROPIC_API_KEY}
