@@ -13,6 +13,7 @@ COPY AdventureTime.sln ./
 COPY AdventureTime/AdventureTime.csproj ./AdventureTime/
 COPY AdventureTime.Application/AdventureTime.Application.csproj ./AdventureTime.Application/
 COPY AdventureTime.Infrastructure/AdventureTime.Infrastructure.csproj ./AdventureTime.Infrastructure/
+COPY AdventureTime.Tests/AdventureTime.Tests.csproj ./AdventureTime.Tests/
 
 # Restore dependencies - this downloads all NuGet packages
 # We explicitly specify the solution file and add verbose logging to catch issues
