@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdventureTime.Application\AdventureTime.csproj" />
+    <ProjectReference Include="..\AdventureTime\AdventureTime.csproj" />
     <ProjectReference Include="..\AdventureTime.Application\AdventureTime.Application.csproj" />
-    <ProjectReference Include="..\AdventureTime.Application\AdventureTime.Infrastructure.csproj" />
+    <ProjectReference Include="..\AdventureTime.Infrastructure\AdventureTime.Infrastructure.csproj" />
   </ItemGroup>
   
   <ItemGroup>
