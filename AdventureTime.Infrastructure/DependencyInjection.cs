@@ -69,11 +69,13 @@ public static class DependencyInjection
         }
         else
         {
-            services.AddHttpClient<IDeepAnalysisService, Gpt5DeepAnalysisService>(client =>
-            {
-                client.Timeout = TimeSpan.FromMinutes(5);
-            });
+            
+            // services.AddHttpClient<IDeepAnalysisService, Gpt5DeepAnalysisService>(client =>
+            // {
+            //     client.Timeout = TimeSpan.FromMinutes(5);
+            // });
         }
+        
         
         services.AddScoped<IEpisodeRepository, EpisodeRepository>();
         services.AddScoped<IEpisodeAnalysisRepository, EpisodeAnalysisRepository>();

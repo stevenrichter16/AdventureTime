@@ -8,6 +8,10 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1492aeae_002D33b2_002D404a_002Da142_002Dfb62c461fb0d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="InvalidConfiguration_ThrowsWithSpecificMessage" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::F2125FDC-D7E7-4771-B10B-9DB283427CCC::net10.0::AdventureTime.Tests.Config.StationOptionsTests.InvalidConfiguration_ThrowsWithSpecificMessage&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::F2125FDC-D7E7-4771-B10B-9DB283427CCC::net10.0::AdventureTime.Tests.Services.FakeAnalysisProviderTests.AnalyzeEpisode_With_Context_Returns_EpisodeAnalysis&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::F2125FDC-D7E7-4771-B10B-9DB283427CCC::net10.0::AdventureTime.Tests.Services.FakeAnalysisProviderTests.AnalyzeEpisode_Returns_EpisodeAnalysis&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::F2125FDC-D7E7-4771-B10B-9DB283427CCC::net10.0::AdventureTime.Tests.Services.FakeAnalysisProviderTests.AnalyzeSeasonTrends_Returns_SeasonAnalysis&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::F2125FDC-D7E7-4771-B10B-9DB283427CCC::net10.0::AdventureTime.Tests.Services.FakeAnalysisProviderTests.EmptyContextCollectinon_Has_0_Length&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6dfd47dd_002Da9fc_002D4a62_002Dbeb6_002D52bc5dde90ac/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Binding_ParsesTimeSpanAndEnum" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
